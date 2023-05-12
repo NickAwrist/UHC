@@ -1,0 +1,4 @@
+name: UHC
+version: '${project.version}'
+main: mineucfuhc.uhc.UHC
+api-version: 1.19
