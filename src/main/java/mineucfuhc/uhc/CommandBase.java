@@ -11,7 +11,6 @@ import org.bukkit.plugin.SimplePluginManager;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.List;
 
 public abstract class CommandBase  extends BukkitCommand implements CommandExecutor {

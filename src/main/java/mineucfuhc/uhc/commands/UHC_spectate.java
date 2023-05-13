@@ -17,7 +17,7 @@ public class UHC_spectate {
             @Override
             public boolean onCommand(CommandSender sender, String[] arguments){
 
-                UHC_Instance instance = UHC.isInAGame((Player) sender);
+                UHC_Instance instance = UHC.getInstance(arguments[0]);
 
                 if(instance == null)
                     Msg.send(sender, "That game does not exist.");

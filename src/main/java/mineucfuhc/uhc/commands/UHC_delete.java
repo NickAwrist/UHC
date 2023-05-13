@@ -6,8 +6,6 @@ import mineucfuhc.uhc.CommandBase;
 import mineucfuhc.uhc.UHC;
 import org.bukkit.command.CommandSender;
 
-import java.io.IOException;
-
 
 public class UHC_delete {
 

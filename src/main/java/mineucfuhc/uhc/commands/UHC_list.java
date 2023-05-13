@@ -5,7 +5,6 @@ import mineucfuhc.uhc.UHC;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-
 public class UHC_list {
 
     public UHC_list(){

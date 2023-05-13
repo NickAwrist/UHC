@@ -20,7 +20,7 @@ public class UHC_vote {
                 UHC_Instance instance = UHC.isInAGame((Player) sender);
 
                 if(instance != null)
-                    instance.addVote();
+                    instance.addVote((Player) sender);
                 else
                     Msg.send(sender, "That instance does not exist.");
 

@@ -22,13 +22,14 @@ public class UHC_join {
                 if(instance == null){
                     Msg.send(sender, "That arena does not exist.");
                 }else if(instance.getPlayers().size() >= 20){
-                    Msg.send(sender, "Game is full.");
+                    Msg.send(sender, "Game is full. Please use /UHC_spectate "+instance.getName());
                 }else if(instance.isActive()){
-                    Msg.send(sender, "Game is currently active. Please wait until it has finished.");
+                    Msg.send(sender, "Game is currently active. Please wait until it has finished. Please use /UHC_spectate "+instance.getName());
                 }else if(UHC.isInAGame((Player) sender) != null){
                     Msg.send(sender, "You are already in a game. Please leave first");
                 }else{
                     Msg.send(sender, "Joining game");
+                    instance.messageAll(instance.getPlayers() ,sender.getName()+" joined the game. "+instance.getPlayers().size()+"/20 Players");
                     instance.addPlayer((Player) sender);
                 }
 

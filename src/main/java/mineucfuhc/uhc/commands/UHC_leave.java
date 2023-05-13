@@ -11,7 +11,7 @@ public class UHC_leave {
 
     public UHC_leave(){
 
-        new CommandBase("UHC_leave", 1){
+        new CommandBase("UHC_leave"){
 
             @Override
             public boolean onCommand(CommandSender sender, String[] arguments){
@@ -20,7 +20,11 @@ public class UHC_leave {
                 if(instance == null){
                     Msg.send(sender, "You are not in a game.");
                 }else{
-                    instance.removePlayer((Player) sender);
+                    if(instance.getSpectators().contains((Player) sender))
+                        instance.removeSpectator((Player) sender);
+                    else
+                        instance.removePlayer((Player) sender);
+                    instance.messageAll(instance.getPlayers() ,sender.getName()+" left the game. "+instance.getPlayers().size()+"/20 Players");
                 }
 
 
