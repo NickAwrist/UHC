@@ -2,22 +2,16 @@ package mineucfuhc.uhc;
 
 import com.onarandombox.MultiverseCore.MultiverseCore;
 import com.onarandombox.MultiverseCore.api.*;
-import com.onarandombox.MultiverseCore.commands.MultiverseCommand;
-import com.onarandombox.MultiverseCore.destination.AnchorDestination;
-import com.onarandombox.MultiverseCore.enums.TeleportResult;
 import mineucfuhc.uhc.events.killEvent;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.*;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.*;
-import org.codehaus.plexus.util.FileUtils;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
