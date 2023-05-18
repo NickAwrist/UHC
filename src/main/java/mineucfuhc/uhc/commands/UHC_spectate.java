@@ -20,11 +20,11 @@ public class UHC_spectate {
                 UHC_Instance instance = UHC.getInstance(arguments[0]);
 
                 if(instance == null)
-                    Msg.send(sender, "That game does not exist.");
+                    Msg.send(sender, "&4That game does not exist.");
                 else if(!instance.isActive())
-                    Msg.send(sender, "That is not an active game.");
+                    Msg.send(sender, "&4That is not an active game.");
                 else if(instance.getSpectators().contains((Player) sender))
-                    Msg.send(sender, "You are already a spectator.");
+                    Msg.send(sender, "&4You are already a spectator.");
                 else
                     instance.addSpectator((Player) sender);
 
@@ -33,7 +33,7 @@ public class UHC_spectate {
 
             @Override
             public String getUsage() {
-                return "/UHC_spectate {ARENA NAME}";
+                return "&4/UHC_spectate {ARENA NAME}";
             }
         };
 

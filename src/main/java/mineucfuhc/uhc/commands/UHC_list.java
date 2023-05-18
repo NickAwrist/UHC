@@ -20,7 +20,7 @@ public class UHC_list {
 
             @Override
             public String getUsage() {
-                return "/UHC_list";
+                return "&4/UHC_list";
             }
         };
 

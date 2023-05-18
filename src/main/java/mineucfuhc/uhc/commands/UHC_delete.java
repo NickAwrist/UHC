@@ -24,7 +24,7 @@ public class UHC_delete {
 
             @Override
             public String getUsage() {
-                return "/UHC_delete {NAME}";
+                return "&4/UHC_delete {NAME}";
             }
         };
 

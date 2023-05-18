@@ -19,7 +19,7 @@ public class UHC_setlobby {
                 UHC_Instance instance = UHC.getInstance(arguments[0]);
 
                 if(instance == null){
-                    Msg.send(sender, "That arena does not exist.");
+                    Msg.send(sender, "&4That arena does not exist.");
                 }else{
                     Msg.send(sender, "Lobby set.");
                     Player player = (Player) sender;
@@ -31,7 +31,7 @@ public class UHC_setlobby {
 
             @Override
             public String getUsage() {
-                return "/UHC_setlobby {ARENA NAME}";
+                return "&4/UHC_setlobby {ARENA NAME}";
             }
         };
 

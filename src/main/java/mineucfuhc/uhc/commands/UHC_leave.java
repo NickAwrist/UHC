@@ -18,13 +18,13 @@ public class UHC_leave {
 
                 UHC_Instance instance = UHC.isInAGame((Player) sender);
                 if(instance == null){
-                    Msg.send(sender, "You are not in a game.");
+                    Msg.send(sender, "&4You are not in a game.");
                 }else{
                     if(instance.getSpectators().contains((Player) sender))
                         instance.removeSpectator((Player) sender);
                     else
                         instance.removePlayer((Player) sender);
-                    instance.messageAll(instance.getPlayers() ,sender.getName()+" left the game. "+instance.getPlayers().size()+"/20 Players");
+                    instance.messageAll(instance.getPlayers() ,"&l&c"+sender.getName()+"&r&c left the game. "+instance.getPlayers().size()+"/20 Players");
                 }
 
 
@@ -33,7 +33,7 @@ public class UHC_leave {
 
             @Override
             public String getUsage() {
-                return "/UHC_leave";
+                return "&4/UHC_leave";
             }
         };
 

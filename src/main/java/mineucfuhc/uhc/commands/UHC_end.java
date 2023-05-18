@@ -26,7 +26,7 @@ public class UHC_end {
 
             @Override
             public String getUsage() {
-                return "/uhc_end {ARENA}";
+                return "&4/uhc_end {ARENA}";
             }
         };
 

@@ -25,7 +25,7 @@ public class UHC_create {
 
             @Override
             public String getUsage() {
-                return "/UHC_create {NAME}";
+                return "&4/UHC_create {NAME}";
             }
         };
 

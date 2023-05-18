@@ -20,16 +20,16 @@ public class UHC_join {
                 UHC_Instance instance = UHC.getInstance(arguments[0]);
 
                 if(instance == null){
-                    Msg.send(sender, "That arena does not exist.");
+                    Msg.send(sender, "&4That arena does not exist.");
                 }else if(instance.getPlayers().size() >= 20){
-                    Msg.send(sender, "Game is full. Please use /UHC_spectate "+instance.getName());
+                    Msg.send(sender, "&4Game is full. Please use /UHC_spectate "+instance.getName());
                 }else if(instance.isActive()){
-                    Msg.send(sender, "Game is currently active. Please wait until it has finished. Please use /UHC_spectate "+instance.getName());
+                    Msg.send(sender, "&4Game is currently active. Please wait until it has finished. Please use /UHC_spectate "+instance.getName());
                 }else if(UHC.isInAGame((Player) sender) != null){
-                    Msg.send(sender, "You are already in a game. Please leave first");
+                    Msg.send(sender, "&4You are already in a game. Please leave first");
                 }else{
-                    Msg.send(sender, "Joining game");
-                    instance.messageAll(instance.getPlayers() ,sender.getName()+" joined the game. "+instance.getPlayers().size()+"/20 Players");
+                    Msg.send(sender, "Joining game...");
+                    instance.messageAll(instance.getPlayers() ,"&l"+sender.getName()+"&r&a joined the game. "+instance.getPlayers().size()+"/20 Players");
                     instance.addPlayer((Player) sender);
                 }
 
@@ -38,7 +38,7 @@ public class UHC_join {
 
             @Override
             public String getUsage() {
-                return "/UHC_join {ARENA NAME}";
+                return "&4/UHC_join {ARENA NAME}";
             }
         };
 

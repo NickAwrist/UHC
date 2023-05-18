@@ -25,6 +25,7 @@ public class UHC_Instance {
     private Location lobby;
     private boolean active;
     private int startGameVote;
+    private final ArrayList<Player> votedPlayers;
 
     ScoreboardManager manager;
     Scoreboard board;
@@ -42,6 +43,7 @@ public class UHC_Instance {
         this.players = new ArrayList<>();
         this.spectators = new ArrayList<>();
         this.startGameVote = 0;
+        votedPlayers = new ArrayList<>();
         mvCore= UHC.getPlugin().MultiVersePlugin;
 
         setUpScoreboard();
@@ -52,7 +54,7 @@ public class UHC_Instance {
         this.manager = Bukkit.getScoreboardManager();
         this.board = manager.getNewScoreboard();
         this.boardTitle = Component.text("UHC");
-        boardTitle = boardTitle.color(TextColor.color(0x54A506));
+        boardTitle = boardTitle.color(TextColor.color(0xFF1C00));
         this.timeObj = board.registerNewObjective("UHC_stats", Criteria.DUMMY, boardTitle);
         timeObj.setDisplaySlot(DisplaySlot.SIDEBAR);
 
@@ -81,7 +83,7 @@ public class UHC_Instance {
     }
 
     private void startUpWrapper(){
-        messageAll(players, "The game is starting in 15 seconds.");
+        messageAll(players, "&6The game is starting in &l15&r&6 seconds.");
         new BukkitRunnable() {
             int startUpTime = 15;
             boolean final5 = false;
@@ -95,14 +97,14 @@ public class UHC_Instance {
                 startUpTime--;
                 if(!final5) {
                     if (startUpTime % 5 == 0) {
-                        messageAll(players, "The game is starting in " + startUpTime + " seconds.");
+                        messageAll(players, "&6The game is starting in &l" + startUpTime + "&r&6 seconds.");
                         for(Player player : players)
                             player.playSound(player.getLocation(), Sound.BLOCK_DISPENSER_FAIL, SoundCategory.PLAYERS, 1.0F, 1.0F);
                     }
                     if(startUpTime == 5)
                         final5 = true;
                 }else{
-                    messageAll(players, "The game is starting in " + startUpTime + " seconds.");
+                    messageAll(players, "&6The game is starting in &l" + startUpTime + "&r&6 seconds.");
                     for(Player player : players)
                         player.playSound(player.getLocation(), Sound.BLOCK_DISPENSER_FAIL, SoundCategory.PLAYERS, 1.0F, 1.0F);
                 }
@@ -158,7 +160,7 @@ public class UHC_Instance {
                 if(time%300 == 0){
                     double worldSize = arenaWorld.getCBWorld().getWorldBorder().getSize();
                     arenaWorld.getCBWorld().getWorldBorder().setSize(worldSize - worldSize/5, TimeUnit.SECONDS, 150);
-                    messageAll((ArrayList<Player>) arenaWorld.getCBWorld().getPlayers(),"The world border is shrinking to "+((int)worldSize - worldSize/5)+" blocks!");
+                    messageAll((ArrayList<Player>) arenaWorld.getCBWorld().getPlayers(),"&6The world border is shrinking to "+((int)worldSize - worldSize/5)+" blocks!");
                 }
 
                 if(players.size() <= 1){
@@ -167,7 +169,7 @@ public class UHC_Instance {
 
                 if(!isActive()) {
                     try {
-                        messageAll((ArrayList<Player>) arenaWorld.getCBWorld().getPlayers(),players.get(0).getName()+" has won the UHC match!");
+                        messageAll((ArrayList<Player>) arenaWorld.getCBWorld().getPlayers(),"&l"+players.get(0).getName()+"&r&a has won the UHC match!");
                         endGame();
                     } catch (IOException e) {
                         throw new RuntimeException(e);
@@ -216,6 +218,7 @@ public class UHC_Instance {
 
     public void removePlayer(Player player){
         if(player.isOnline()){
+            votedPlayers.remove(player);
             player.setGameMode(GameMode.SURVIVAL);
             player.setScoreboard(manager.getNewScoreboard());
             players.remove(player);
@@ -238,8 +241,10 @@ public class UHC_Instance {
             Msg.send(player, message);
     }
     public void addVote(Player player){
+
+        votedPlayers.add(player);
         this.startGameVote++;
-        messageAll(players, player.getName()+" has voted to start early. Current vote is "+startGameVote+"/"+players.size()/2);
+
         if(players.size()/startGameVote <=2)
             startUpWrapper();
     }
@@ -255,6 +260,7 @@ public class UHC_Instance {
     public ArrayList<Player> getSpectators() {
         return spectators;
     }
+    public ArrayList<Player> getVotedPlayers(){return votedPlayers;}
 
     public void addSpectator(Player player){
         mvCore.teleportPlayer(player, player, players.get((int) (Math.random()*players.size())).getLocation());
@@ -265,5 +271,6 @@ public class UHC_Instance {
 
     public String getName(){return name;}
     public Objective getObj(){return this.timeObj;}
+    public int getStartGameVote(){return startGameVote;}
     public World getWorld(){return arenaWorld.getCBWorld();}
 }

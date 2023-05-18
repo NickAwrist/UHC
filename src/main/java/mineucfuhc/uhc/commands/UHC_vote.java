@@ -19,10 +19,15 @@ public class UHC_vote {
 
                 UHC_Instance instance = UHC.isInAGame((Player) sender);
 
-                if(instance != null)
-                    instance.addVote((Player) sender);
-                else
-                    Msg.send(sender, "That instance does not exist.");
+                if(instance != null) {
+                    if (!instance.getVotedPlayers().contains(sender)) {
+                        instance.addVote((Player) sender);
+                        instance.messageAll(instance.getPlayers(), "&l"+sender.getName()+"&r&a has voted to start early. Current vote is &n"+instance.getStartGameVote()   +"/"+instance.getPlayers().size()/2);
+                    } else{
+                        Msg.send(sender, "&4You already voted.");
+                    }
+                }else
+                    Msg.send(sender, "&4That instance does not exist.");
 
                 return true;
             }
