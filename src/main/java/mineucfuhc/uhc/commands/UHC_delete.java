@@ -16,6 +16,11 @@ public class UHC_delete {
             @Override
             public boolean onCommand(CommandSender sender, String[] arguments){
 
+                if(!sender.hasPermission("deleteInstance")){
+                    Msg.send(sender, "&4You do not have permission to delete an instance.");
+                    return true;
+                }
+
                 UHC.deleteInstance(arguments[0]);
                 Msg.send(sender, arguments[0]+" has been deleted!");
 

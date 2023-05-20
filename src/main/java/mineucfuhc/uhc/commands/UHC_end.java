@@ -1,6 +1,7 @@
 package mineucfuhc.uhc.commands;
 
 import mineucfuhc.uhc.CommandBase;
+import mineucfuhc.uhc.Msg;
 import mineucfuhc.uhc.UHC;
 import mineucfuhc.uhc.UHC_Instance;
 import org.bukkit.command.CommandSender;
@@ -15,6 +16,11 @@ public class UHC_end {
 
             @Override
             public boolean onCommand(CommandSender sender, String[] arguments) throws IOException {
+
+                if(!sender.hasPermission("endGame")){
+                    Msg.send(sender, "&4You do not have permission to end a game.");
+                    return true;
+                }
 
                 UHC_Instance instance = UHC.getInstance(arguments[0]);
                 if(instance != null){

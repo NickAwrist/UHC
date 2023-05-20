@@ -5,8 +5,6 @@ import mineucfuhc.uhc.Msg;
 import mineucfuhc.uhc.files.Instances;
 import mineucfuhc.uhc.UHC_Instance;
 import mineucfuhc.uhc.UHC;
-import org.bukkit.Location;
-import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 
 public class UHC_create {
@@ -16,6 +14,11 @@ public class UHC_create {
         new CommandBase("UHC_create", 1){
             @Override
             public boolean onCommand(CommandSender sender, String[] arguments) {
+
+                if(!sender.hasPermission("createInstance")){
+                    Msg.send(sender, "&4You do not have permission to create an instance.");
+                    return true;
+                }
 
                 String name = arguments[0];
                 if(Instances.get().contains(arguments[0])){
