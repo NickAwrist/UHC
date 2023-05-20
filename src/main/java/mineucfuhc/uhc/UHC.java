@@ -45,12 +45,13 @@ public final class UHC extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new killEvent(), this);
 
 
-        Bukkit.getLogger().info("------------UHC!!!------------");
+        Bukkit.getLogger().info("------------Enabled UHC!!!------------");
     }
 
     @Override
     public void onDisable() {
         // Plugin shutdown logic
+        Bukkit.getLogger().info("------------Disabled UHC!------------");
     }
     public static UHC getPlugin(){
         return plugin;
@@ -100,16 +101,18 @@ public final class UHC extends JavaPlugin {
 
         ConfigurationSection instances = Instances.get().getConfigurationSection("instances");
 
-        assert instances != null;
-        for(String instance: instances.getKeys(false)){
+        if(instances != null){
+            for(String instance: instances.getKeys(false)){
 
-            UHC_Instance temp = new UHC_Instance(instance);
-            Location lobby = Instances.get().getLocation("instances."+instance+".lobby");
-            assert lobby != null;
-            Bukkit.getLogger().warning(lobby.toString());
-            temp.setLobby(lobby, lobby.getWorld());
-            UHCInstances.add(temp);
+                UHC_Instance temp = new UHC_Instance(instance);
+                Location lobby = Instances.get().getLocation("instances."+instance+".lobby");
+                assert lobby != null;
+                Bukkit.getLogger().warning(lobby.toString());
+                temp.setLobby(lobby, lobby.getWorld());
+                UHCInstances.add(temp);
+            }
         }
+
 
 
     }
