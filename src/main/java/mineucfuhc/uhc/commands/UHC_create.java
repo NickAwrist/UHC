@@ -2,8 +2,11 @@ package mineucfuhc.uhc.commands;
 
 import mineucfuhc.uhc.CommandBase;
 import mineucfuhc.uhc.Msg;
+import mineucfuhc.uhc.files.Instances;
 import mineucfuhc.uhc.UHC_Instance;
 import mineucfuhc.uhc.UHC;
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 
 public class UHC_create {
@@ -15,9 +18,23 @@ public class UHC_create {
             public boolean onCommand(CommandSender sender, String[] arguments) {
 
                 String name = arguments[0];
+                if(Instances.get().contains(arguments[0])){
+                    Msg.send(sender, "&4That instance already exists.");
+                    return true;
+                }
+
                 UHC_Instance instance = new UHC_Instance(name);
 
+                if(!Instances.get().contains("instances."+name)){
+                    Instances.get().set("instances."+name+".name", name);
+                    Instances.save();
+                }
+
+
                 UHC.addInstance(instance);
+
+
+
                 Msg.send(sender, "UHC Instance "+name+" created! Now set a lobby using /UHC_setlobby "+name);
 
                 return true;

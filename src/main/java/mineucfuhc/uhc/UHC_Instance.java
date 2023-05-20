@@ -273,4 +273,5 @@ public class UHC_Instance {
     public Objective getObj(){return this.timeObj;}
     public int getStartGameVote(){return startGameVote;}
     public World getWorld(){return arenaWorld.getCBWorld();}
+    public Location getLobby(){return lobby;}
 }

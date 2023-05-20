@@ -3,12 +3,19 @@ package mineucfuhc.uhc;
 import com.onarandombox.MultiverseCore.MultiverseCore;
 import mineucfuhc.uhc.commands.*;
 import mineucfuhc.uhc.events.killEvent;
+import mineucfuhc.uhc.files.Instances;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import javax.security.auth.login.Configuration;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 public final class UHC extends JavaPlugin {
 
@@ -19,9 +26,13 @@ public final class UHC extends JavaPlugin {
     public void onEnable(){
         plugin = this;
         // Plugin startup logic
-        Bukkit.getLogger().info("------------UHC!!!------------");
 
         MultiVersePlugin = getMultiVersePlugin();
+
+        Instances.setup();
+        Instances.get().options().copyDefaults();
+        Instances.save();
+        loadInstances();
 
         new UHC_create();
         new UHC_delete();
@@ -36,6 +47,8 @@ public final class UHC extends JavaPlugin {
 
         getServer().getPluginManager().registerEvents(new killEvent(), this);
 
+
+        Bukkit.getLogger().info("------------UHC!!!------------");
     }
 
     @Override
@@ -84,21 +97,26 @@ public final class UHC extends JavaPlugin {
         UHCInstances.removeIf(instance -> instance.getName().equalsIgnoreCase(name));
     }
 
-    public static void printInstances(Player player){
+    public static ArrayList<UHC_Instance> getUHCInstances(){return UHCInstances;}
 
-        StringBuilder finalList = new StringBuilder();
+    private static void loadInstances(){
 
-        for(UHC_Instance instance : UHCInstances){
+        ConfigurationSection instances = Instances.get().getConfigurationSection("instances");
 
-            String state = "INACTIVE";
-            if(instance.isActive())
-                state = "ACTIVE";
+        assert instances != null;
+        for(String instance: instances.getKeys(false)){
 
-            finalList.append(instance.getName()).append("   ").append(state).append("\n");
+            UHC_Instance temp = new UHC_Instance(instance);
+            Location lobby = Instances.get().getLocation("instances."+instance+".lobby");
+            assert lobby != null;
+            Bukkit.getLogger().warning(lobby.toString());
+            temp.setLobby(lobby, lobby.getWorld());
+            UHCInstances.add(temp);
         }
 
-        Msg.send(player, finalList.toString());
+
     }
+
 
 
     /*      TO DO
