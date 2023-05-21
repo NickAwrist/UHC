@@ -3,6 +3,7 @@ package mineucfuhc.uhc;
 import com.onarandombox.MultiverseCore.MultiverseCore;
 import mineucfuhc.uhc.commands.*;
 import mineucfuhc.uhc.events.killEvent;
+import mineucfuhc.uhc.events.leaveEvent;
 import mineucfuhc.uhc.files.Instances;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -43,6 +44,7 @@ public final class UHC extends JavaPlugin {
         new UHC_end();
 
         getServer().getPluginManager().registerEvents(new killEvent(), this);
+        getServer().getPluginManager().registerEvents(new leaveEvent(), this);
 
 
         Bukkit.getLogger().info("------------Enabled UHC!!!------------");
