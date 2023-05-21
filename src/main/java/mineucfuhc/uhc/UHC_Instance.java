@@ -84,13 +84,25 @@ public class UHC_Instance {
 
     private void startUpWrapper(){
         messageAll(players, "&6The game is starting in &l15&r&6 seconds.");
+        for(Player player : players)
+            player.playSound(player.getLocation(), Sound.BLOCK_DISPENSER_FAIL, SoundCategory.PLAYERS, 1.0F, 1.0F);
+
+        active = true;
+
         new BukkitRunnable() {
             int startUpTime = 15;
             boolean final5 = false;
+
             public void run() {
 
                 if(startUpTime == 1){
                     startGame();
+                    cancel();
+                }
+
+                if(players.size() == 1){
+                    messageAll(players, "&4Unable to start game.");
+                    active = false;
                     cancel();
                 }
 
@@ -218,7 +230,11 @@ public class UHC_Instance {
 
     public void removePlayer(Player player){
         if(player.isOnline()){
-            votedPlayers.remove(player);
+
+            if(votedPlayers.contains(player)){
+                votedPlayers.remove(player);
+                startGameVote--;
+            }
             player.setGameMode(GameMode.SURVIVAL);
             player.setScoreboard(manager.getNewScoreboard());
             players.remove(player);

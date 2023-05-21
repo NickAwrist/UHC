@@ -28,8 +28,8 @@ public class UHC_join {
                 }else if(UHC.isInAGame((Player) sender) != null){
                     Msg.send(sender, "&4You are already in a game. Please leave first");
                 }else{
-                    Msg.send(sender, "Joining game...");
-                    instance.messageAll(instance.getPlayers() ,"&l"+sender.getName()+"&r&a joined the game. "+instance.getPlayers().size()+"/20 Players");
+                    Msg.send(sender, "Joining game... Do /uhc_vote to start the game early.");
+                    instance.messageAll(instance.getPlayers() ,"&l"+sender.getName()+"&r&a joined the game. "+(instance.getPlayers().size()+1)+"/20 Players");
                     instance.addPlayer((Player) sender);
                 }
 
