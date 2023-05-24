@@ -3,6 +3,7 @@ package mineucfuhc.uhc.events;
 import mineucfuhc.uhc.UHC;
 import mineucfuhc.uhc.UHC_Instance;
 import net.kyori.adventure.text.Component;
+import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.SoundCategory;
 import org.bukkit.entity.Player;
@@ -26,20 +27,28 @@ public class killEvent implements Listener {
 
             Player killer = e.getEntity().getKiller();
 
-            if(e.getPlayer().getWorld().equals(instance.getWorld()) && killer != null){
-                Score temp = obj.getScore(killer);
-                temp.setScore(temp.getScore()+1);
+            if(e.getPlayer().getWorld().equals(instance.getWorld())){
+                if(killer != null) {
+                    Score temp = obj.getScore(killer);
+                    temp.setScore(temp.getScore() + 1);
+                }
                 deathMessage(e, instance);
                 e.deathMessage(Component.empty());
                 instance.removePlayer(e.getPlayer());
                 for(Player player : instance.getPlayers())
                     player.playSound(player.getLocation(), Sound.ENTITY_LIGHTNING_BOLT_THUNDER, SoundCategory.PLAYERS, 1.0F, 1.0F);
             }
+
         }
     }
 
     private void deathMessage(PlayerDeathEvent e, UHC_Instance instance){
-        instance.messageAll((ArrayList<Player>) instance.getWorld().getPlayers(), "&4"+e.getPlayer().getName()+" was eliminated by "+ Objects.requireNonNull(e.getEntity().getKiller()).getName());
+        String deathReason = "natural causes.";
+
+        if(e.getEntity().getKiller() != null)
+            deathReason = e.getEntity().getKiller().getName();
+
+        instance.messageAll((ArrayList<Player>) instance.getWorld().getPlayers(), "&4"+e.getPlayer().getName()+" was eliminated by "+deathReason);
     }
 
 }

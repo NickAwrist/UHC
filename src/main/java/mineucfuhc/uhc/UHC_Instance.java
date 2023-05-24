@@ -53,6 +53,8 @@ public class UHC_Instance {
     private void setUpScoreboard(){
         this.manager = Bukkit.getScoreboardManager();
         this.board = manager.getNewScoreboard();
+
+        // CONFIGURABLE (name and color)
         this.boardTitle = Component.text("UHC");
         boardTitle = boardTitle.color(TextColor.color(0xFF1C00));
         this.timeObj = board.registerNewObjective("UHC_stats", Criteria.DUMMY, boardTitle);
@@ -67,14 +69,18 @@ public class UHC_Instance {
     private void createWorld(){
         MultiverseCore mvCore= UHC.getPlugin().MultiVersePlugin;
 
-        if(mvCore.getMVWorldManager().addWorld("uhcTEMP", World.Environment.NORMAL, null, WorldType.NORMAL, true, "Normal")){
+        // CONFIGURABLE (name)
+        if(mvCore.getMVWorldManager().addWorld("uhcTEMP", World.Environment.NORMAL, null, WorldType.NORMAL, true, "normal")){
             arenaWorld = mvCore.getMVWorldManager().getMVWorld("uhcTEMP");
             World dummy = arenaWorld.getCBWorld();
             dummy.setGameRule(GameRule.DO_IMMEDIATE_RESPAWN, true);
             dummy.setGameRule(GameRule.NATURAL_REGENERATION, false);
             dummy.setGameRule(GameRule.DO_INSOMNIA, false);
             dummy.setGameRule(GameRule.DO_PATROL_SPAWNING, false);
+            // CONFIGURABLE (difficulty)
+            dummy.setDifficulty(Difficulty.NORMAL);
 
+            // CONFIGURABLE (border size)
             int worldBorderSize = 1500;
             dummy.getWorldBorder().setCenter(0, 0);
             dummy.getWorldBorder().setSize(worldBorderSize);
@@ -107,18 +113,19 @@ public class UHC_Instance {
                 }
 
                 startUpTime--;
+
                 if(!final5) {
                     if (startUpTime % 5 == 0) {
                         messageAll(players, "&6The game is starting in &l" + startUpTime + "&r&6 seconds.");
                         for(Player player : players)
-                            player.playSound(player.getLocation(), Sound.BLOCK_DISPENSER_FAIL, SoundCategory.PLAYERS, 1.0F, 1.0F);
+                            player.playSound(player.getLocation(), Sound.BLOCK_DISPENSER_DISPENSE, SoundCategory.PLAYERS, 1.0F, 1.0F);
                     }
                     if(startUpTime == 5)
                         final5 = true;
                 }else{
                     messageAll(players, "&6The game is starting in &l" + startUpTime + "&r&6 seconds.");
                     for(Player player : players)
-                        player.playSound(player.getLocation(), Sound.BLOCK_DISPENSER_FAIL, SoundCategory.PLAYERS, 1.0F, 1.0F);
+                        player.playSound(player.getLocation(), Sound.BLOCK_DISPENSER_DISPENSE, SoundCategory.PLAYERS, 1.0F, 1.0F);
                 }
 
             }
@@ -142,6 +149,7 @@ public class UHC_Instance {
 
             mvCore.teleportPlayer(player, player, randomLoc);
 
+            // CONFIGURABLE (regen)
             player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 60*20, 100));
             player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_FALLING, 20*20, 1));
 
@@ -152,7 +160,6 @@ public class UHC_Instance {
 
         this.active = true;
         checkCompletion();
-
     }
 
     private void checkCompletion(){
@@ -169,6 +176,7 @@ public class UHC_Instance {
                     tempMinutes.setScore((int) time/60 + 1);
                 }
 
+                // CONFIGURABLE (time for border shrink) (by how much it shrinks) (for how long it shrinks for)
                 if(time%300 == 0){
                     double worldSize = arenaWorld.getCBWorld().getWorldBorder().getSize();
                     arenaWorld.getCBWorld().getWorldBorder().setSize(worldSize - worldSize/5, TimeUnit.SECONDS, 150);
@@ -198,11 +206,7 @@ public class UHC_Instance {
         if (Bukkit.getWorld("uhcTEMP") == null) return;
 
         for (Player player : Objects.requireNonNull(Bukkit.getWorld("uhcTEMP")).getPlayers()) {
-            player.setGameMode(GameMode.SURVIVAL);
-            player.getInventory().clear();
-            player.setExp(0);
-            mvCore.teleportPlayer(player, player, lobby);
-            player.setScoreboard(manager.getNewScoreboard());
+            removePlayer(player);
         }
 
         players.clear();
@@ -223,6 +227,7 @@ public class UHC_Instance {
             mvCore.teleportPlayer(player, player, lobby);
         }
 
+        // CONFIGURABLE (max players)
         if(players.size() >= 20){
             startUpWrapper();
         }
@@ -235,8 +240,13 @@ public class UHC_Instance {
                 votedPlayers.remove(player);
                 startGameVote--;
             }
+
+            player.getInventory().clear();
+            player.setExp(0);
             player.setGameMode(GameMode.SURVIVAL);
             player.setScoreboard(manager.getNewScoreboard());
+
+            spectators.remove(player);
             players.remove(player);
             mvCore.teleportPlayer(player, player, lobby);
         }
@@ -251,7 +261,6 @@ public class UHC_Instance {
         }
     }
 
-
     public void messageAll(ArrayList<Player> list ,String message){
         for(Player player : list)
             Msg.send(player, message);
@@ -261,6 +270,7 @@ public class UHC_Instance {
         votedPlayers.add(player);
         this.startGameVote++;
 
+        // CONFIGURABLE (how much until game starts, currently is half)
         if(players.size()/startGameVote <=2)
             startUpWrapper();
     }
